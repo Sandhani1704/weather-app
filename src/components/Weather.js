@@ -9,13 +9,13 @@ function minMaxTemp(min, max) {
     )
 }
 
-const Weather = () => {
+const Weather = (props) => {
     return (
         <div className='conteiner'>
             <div className='cards'>
-                <h1>London</h1>
+                <h1>{props.city} {props.country}</h1>
                 <h5 className='py-4'>
-                    <i class="wi wi-day-sunny" display-3></i>
+                    <i className="wi wi-day-sunny" display-1></i>
                 </h5>
                 <h2 className='py-2'>25&deg;</h2>
                 {minMaxTemp(28, 15)}
