@@ -86,7 +86,7 @@ function App() {
       tempMax: calcCelsius(response.main.temp_min),
       tempMin: calcCelsius(response.main.temp_max),
       description: response.weather[0].description,
-      icon: null,
+      // icon: null,
     });
     // getWeatherIcon(weatherIcon, response.weather[0].id)
 
