@@ -18,9 +18,45 @@ function App() {
     tempMax: undefined,
     tempMin: undefined,
     description: undefined,
+    icon: undefined,
   });
 
-  const [weatherIcon, getWeatherIcon] = React.useState({icon:''});
+  const [weatherIcon, setWeatherIcon] = React.useState({
+    Thunderstorm: 'wi-thunderstorm',
+    Drizzle: 'wi-sleet',
+    Rain: 'wi-storm-showers',
+    Snow: 'wi-snow',
+    Atmosphere: 'wi-fog',
+    Clear: 'wi-day-sunny',
+    Clouds: 'wi-day-fog',
+  });
+
+  const getWeatherIcon = (icons, rangeId) => {
+    switch (true) {
+      case rangeId >= 200 && rangeId <= 232:
+        setWeatherData({ icon: icons.Thunderstorm })
+        break;
+      case rangeId >= 300 && rangeId <= 321:
+        setWeatherData({ icon: icons.Drizzle })
+        break;
+      case rangeId >= 500 && rangeId <= 531:
+        setWeatherData({ icon: icons.Rain })
+        break;
+      case rangeId >= 600 && rangeId <= 622:
+        setWeatherData({ icon: icons.Snow })
+        break;
+      case rangeId >= 701 && rangeId <= 781:
+        setWeatherData({ icon: icons.Atmosphere })
+        break;
+      case rangeId === 800:
+        setWeatherData({ icon: icons.Clear })
+        break;
+      case rangeId >= 801 && rangeId <= 804:
+        setWeatherData({ icon: icons.Clouds })
+        break;
+      default: setWeatherData({ icon: icons.Clear });
+    }
+  }
 
   // React.useEffect(() => {
   //   const getWeather = async () => {
@@ -39,32 +75,54 @@ function App() {
     return cell;
   }
 
+  // React.useEffect(() => {
+  const getWeather = async () => {
+    const apiCall = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=London&appid=${API_KEY}`)
+    const response = await apiCall.json()
+    setWeatherData({
+      city: response.name,
+      country: response.sys.country,
+      temp: calcCelsius(response.main.temp),
+      tempMax: calcCelsius(response.main.temp_min),
+      tempMin: calcCelsius(response.main.temp_max),
+      description: response.weather[0].description,
+      icon: null,
+    });
+    // getWeatherIcon(weatherIcon, response.weather[0].id)
+
+
+  }
+  // getWeather();
+  // }, [])
+
+  // React.useEffect(() => {
+  const getWeatherIcons = async () => {
+    const apiCallIcons = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=London&appid=${API_KEY}`)
+    const responseIcons = await apiCallIcons.json();
+    getWeatherIcon(weatherIcon, responseIcons.weather[0].id)
+  }
+  // getWeatherIcons();
+  // }, [])
+
   React.useEffect(() => {
-    const getWeather = async () => {
-      const apiCall = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=London&appid=${API_KEY}`)
-      // .then((res) => res.json());
-      const response = await apiCall.json();
-      console.log(response);
-      setWeatherData({
-        city: response.name,
-        country: null,
-        temp: calcCelsius(response.main.temp),
-        tempMax: calcCelsius(response.main.temp.max),
-        tempMin: undefined(response.main.temp.min),
-        description: response.weather[0].description,
-      })
-      getWeatherIcon({icon: ''});
-    }
-    getWeather();
-  }, [])
-  // console.log(getWeather())
-  // const apiCall = fetch(`https://api.openweathermap.org/data/2.5/weather?q=London&appid=${API_KEY}`)
-  // const response = apiCall.json();
-  // console.log(response);
+    Promise.all([getWeatherIcons(), getWeather()])
+  }, []);
+
+  React.useEffect(() => {
+    Promise.all([getWeather(), getWeatherIcons()])
+  }, []);
 
   return (
     <div className="App">
-      <Weather city="h" country={weatherData.country} />
+      <Weather
+        city={weatherData.city}
+        country={weatherData.country}
+        temp={weatherData.temp}
+        tempMax={weatherData.tempMax}
+        tempMin={weatherData.tempMin}
+        description={weatherData.description}
+        icon={weatherData.icon}
+      />
     </div>
   );
 }
