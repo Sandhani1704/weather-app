@@ -4,7 +4,7 @@ import "./Form.css";
 function Form(props) {
     return (
         <div className='conteiner h-100'>
-            <form className='row' onSubmit={props.loadWeather}>
+            <form className='row' onSubmit={props.getWeather}>
                 <input
                     type="text"
                     className="form-control col-md-3 offset-md-2"
@@ -12,13 +12,13 @@ function Form(props) {
                     name="city"
                     autoComplete="off"
                 />
-                <input
+                {/* <input
                     type="text"
                     className="form-control col-md-3"
                     placeholder="Country"
                     name="country"
                     autoComplete="off"
-                />
+                /> */}
                 <button className="btn btn-warning col-md-3 mt-md-0 mt-2 text-md-left">Get Weather</button>
 
             </form>

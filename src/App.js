@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React from "react"
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'weather-icons/css/weather-icons.css'
 import Weather from './components/Weather'
@@ -19,7 +19,7 @@ function App() {
     tempMax: undefined,
     tempMin: undefined,
     description: undefined,
-    //icon: undefined,
+    // icon: undefined,
   });
 
   const [weatherIcon, setWeatherIcon] = React.useState({
@@ -32,7 +32,7 @@ function App() {
     Clouds: 'wi-day-fog',
   });
 
-  const [city, setCity] = React.useState('');
+
   const [country, setCountry] = React.useState('');
 
   const getWeatherIcon = (icons, rangeId) => {
@@ -79,53 +79,49 @@ function App() {
     return cell;
   }
 
-  // function handleInputCityAndCountryChange(event) {
-  //   const { city, country } = event.target.value
-  //   setCity(value);
-  //   setCountry(value);
-  // }
-
   // React.useEffect(() => {
-  //   Promise.all([getWeatherIcons(), getWeather()])
-  // }, []);
-  React.useEffect(() => {
-    const getWeather = async () => {
-      // handleInputCityAndCountryChange()
-      // event.preventDefault();
-      // const { city, country } = event.target.value
-      // if (city && country) {
+  const getWeather = async (e) => {
+    e.preventDefault()
+    const location = e.target.elements.city.value
+    console.log(location)
+    if (location) {
       // const apiCall = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=London&appid=${API_KEY}`)
-      const apiCall = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}`)
+      const apiCall = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}`)
       const response = await apiCall.json()
+      console.log(response);
+      getWeatherIcon(weatherIcon, response.weather[0].id);
+      // console.log(getWeatherIcon(weatherIcon, response.weather[0].id))
       setWeatherData({
-        city: response.name,
+        city: `${response.name}, ${response.sys.country}`,
         country: response.sys.country,
         temp: calcCelsius(response.main.temp),
         tempMax: calcCelsius(response.main.temp_min),
         tempMin: calcCelsius(response.main.temp_max),
         description: response.weather[0].description,
+        // icon: getWeatherIcon(weatherIcon, response.weather[0].id)
       });
-      getWeatherIcon(weatherIcon, response.weather[0].id)
-      // } else console.error();
-    }
-    getWeather()
-  }, []);
+      // console.log(setWeatherData.icon)
 
-  // React.useEffect(() => {
-  //   Promise.all([getWeather(), getWeatherIcons()])
-  // }, []);
+      // console.log(getWeatherIcon(weatherIcon, response.weather[0].id))
+    } else console.error();
+  }
+  //   getWeather()
+  // }, [getWeather()]);
+
 
   return (
     <div className="App">
-      <Form />
+      <Form getWeather={getWeather} />
       <Weather
-        city={weatherData.city}
+        cityName={weatherData.city}
         country={weatherData.country}
         temp={weatherData.temp}
         tempMax={weatherData.tempMax}
         tempMin={weatherData.tempMin}
         description={weatherData.description}
         icon={weatherIcon.icon}
+      // icon={weatherData.icon}
+
       />
     </div>
   );
