@@ -1,5 +1,7 @@
 form {
     margin-top: 3rem;
+    justify-content: center;
+    
   }
   
   form input[name="city"],
@@ -9,4 +11,18 @@ form {
     border: none;
     border-bottom: 2px solid whitesmoke;
     border-radius: 0;
+  }
+
+  .form-control {
+    margin: 0;
+  }
+
+  .form-conteiner {
+    /* display: flex; */
+    justify-content: center;
+    /* max-width: 300px; */
+  }
+
+  .btn {
+    align-items: center;
   }

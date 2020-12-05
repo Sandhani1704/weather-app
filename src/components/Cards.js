@@ -1,9 +1,10 @@
 import React from 'react';
 import moment from 'moment';
 import russianLocale from 'moment/locale/ru'
+import './Cards.css';
 
 moment.updateLocale('ru', russianLocale);
-// import './Cards.css';
+
 
 function minMaxTemp(min, max) {
     if (max && min) {
@@ -20,15 +21,15 @@ const Cards = (props) => {
     const icon = `http://openweathermap.org/img/wn/${props.day.weather[0].icon}@2x.png`;
     const getWeekDay = props.day.dt_txt;
     // console.log(getWeekDay)
-    
+
     // const weekDay = props.day.dt_txt
 
-        return (
+    return (
         <div className='card-conteiner'>
             {/* {newDate} */}
             <p>{moment(getWeekDay).format('dddd')}</p>
             <p>{moment(getWeekDay).format('MMM Do YY')}</p>
-                        
+
             {/* <h1>{props.day.weather[0].description}</h1> */}
             <img src={icon}></img>
             {/* <p className='py-4'>

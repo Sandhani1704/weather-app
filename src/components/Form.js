@@ -3,7 +3,7 @@ import "./Form.css";
 
 function Form(props) {
     return (
-        <div className='conteiner h-100'>
+        <div className='form-conteiner conteiner h-100'>
             <form className='row' onSubmit={props.getWeather}>
                 <input
                     type="text"

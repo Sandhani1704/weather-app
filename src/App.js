@@ -2,7 +2,7 @@ import './App.css';
 import React from "react"
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'weather-icons/css/weather-icons.css'
-// import Weather from './components/Weather'
+import Weather from './components/Weather'
 import Cards from './components/Cards'
 import Form from './components/Form'
 
@@ -65,10 +65,10 @@ function App() {
     }
   }
 
-  const calcCelsius = (temp) => {
-    let cell = Math.floor(temp - 273, 15)
-    return cell;
-  }
+  // const calcCelsius = (temp) => {
+  //   let cell = Math.floor(temp - 273, 15)
+  //   return cell;
+  // }
 
   // React.useEffect(() => {
   const getWeather = async (e) => {
@@ -79,35 +79,40 @@ function App() {
       const apiCall = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location}&lang=ru&units=metric&APPID=${API_KEY}`)
       const response = await apiCall.json()
       console.log(response)
-      const dailyData = response.list.slice(0, 40);
+      // const dailyData = response.list.slice(0, 40);
 
-      const newData = dailyData.reduce((acc, item) => {
-        const day = item.dt_txt.split(' ')[0]; // Дата как ключ
-        if (!acc[day]) {  // если у нас нет такого ключа, то создаем
-          acc[day] = [];
-        }
-        acc[day].push(item.main.temp) // добавляем температуру
-        return acc
-      }, {});
+      const dailyData = response.list.filter(reading => reading.dt_txt.includes("18:00:00"))
+
+      // const newData = response.list.reduce((acc, item) => {
+      //   const day = item.dt_txt.split(' ')[0]; // Дата как ключ
+      //   if (!acc[day]) {  // если у нас нет такого ключа, то создаем
+      //     acc[day] = [];
+      //   }
+      //   acc[day].push(item.main.temp)
+      //   // добавляем температуру
+      //   acc[day].push(item.weather[0].icon)
+      //   return acc
+      // }, {});
 
       // console.log(newData)
-      const temp = [];
-      for (let item in newData) {
-        const avgTemp = Math.round(newData[item].reduce((acc, cur) => {
-          return acc + cur
-        }, 0) / newData[item].length) // Складываем температуру, делим на количество элементов, округляем и добавляем в новый объект
-        temp.push({
-          day: item,
-          avgTemp: avgTemp
-        })
-      }
+      // const temp = [];
+      // for (let item in newData) {
+      //   const avgTemp = Math.round(newData[item].reduce((acc, cur) => {
+      //     return acc + cur
+      //   }, 0) / newData[item].length) // Складываем температуру, делим на количество элементов, округляем и добавляем в новый объект
+      //   temp.push({
+      //     day: item,
+      //     avgTemp: avgTemp,
+      //     // weather: item
+      //   })
+      // }
 
-      console.log(newData)
+      // console.log(temp)
 
 
 
-      setDays({ days: newData })
-      console.log(dailyData);
+      setDays({ days: dailyData })
+      // console.log(newData);
       getWeatherIcon(weatherIcon, response.list[0].weather[0].id);
       // console.log(getWeatherIcon(weatherIcon, response.weather[0].id))
       setWeatherData({
@@ -138,7 +143,7 @@ function App() {
   return (
     <div className="App">
       <Form getWeather={getWeather} />
-      {/* <Weather
+      <Weather
         cityName={weatherData.city}
         country={weatherData.country}
         temp={weatherData.temp}
@@ -146,7 +151,7 @@ function App() {
         tempMin={weatherData.tempMin}
         description={weatherData.description}
         icon={weatherIcon.icon}
-      /> */}
+      />
       <h5 className='city-name'>{weatherData.city}</h5>
       <div className='conteiner-cards'>
 
