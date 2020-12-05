@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+.city-name {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.conteiner-cards {
+  display: flex;
+  flex-direction: row;
+}
