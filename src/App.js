@@ -76,13 +76,37 @@ function App() {
     const location = e.target.elements.city.value
     console.log(location)
     if (location) {
-      // const apiCall = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=London&appid=${API_KEY}`)
-      // const apiCall = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}`)
       const apiCall = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location}&lang=ru&units=metric&APPID=${API_KEY}`)
       const response = await apiCall.json()
       console.log(response)
       const dailyData = response.list.slice(0, 40);
-      setDays({ days: dailyData })
+
+      const newData = dailyData.reduce((acc, item) => {
+        const day = item.dt_txt.split(' ')[0]; // Дата как ключ
+        if (!acc[day]) {  // если у нас нет такого ключа, то создаем
+          acc[day] = [];
+        }
+        acc[day].push(item.main.temp) // добавляем температуру
+        return acc
+      }, {});
+
+      // console.log(newData)
+      const temp = [];
+      for (let item in newData) {
+        const avgTemp = Math.round(newData[item].reduce((acc, cur) => {
+          return acc + cur
+        }, 0) / newData[item].length) // Складываем температуру, делим на количество элементов, округляем и добавляем в новый объект
+        temp.push({
+          day: item,
+          avgTemp: avgTemp
+        })
+      }
+
+      console.log(newData)
+
+
+
+      setDays({ days: newData })
       console.log(dailyData);
       getWeatherIcon(weatherIcon, response.list[0].weather[0].id);
       // console.log(getWeatherIcon(weatherIcon, response.weather[0].id))
@@ -125,7 +149,7 @@ function App() {
       /> */}
       <h5 className='city-name'>{weatherData.city}</h5>
       <div className='conteiner-cards'>
-        
+
         {days.days.map((day, i) => <Cards day={day} key={i} />)}
       </div>
 
