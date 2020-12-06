@@ -106,7 +106,7 @@ function App() {
           dateToIndexMap[day] = currentDayIndex;
         }
         if (weatherInfo[currentDayIndex] == null || weatherInfo[currentDayIndex] == undefined) {  // если у нас нет такого ключа, то создаем
-          weatherInfo[currentDayIndex] = { max_temp: -100, min_temp: 100, icon: null, date: day };
+          weatherInfo[currentDayIndex] = { max_temp: -100, min_temp: 100, icon: null, date: day, description: '' };
         }
         if (weatherInfo[currentDayIndex].max_temp < item.main.temp) {
           weatherInfo[currentDayIndex].max_temp = item.main.temp;
@@ -116,6 +116,7 @@ function App() {
         }
         if (item.dt_txt.split(' ')[1] === '12:00:00') {
           weatherInfo[currentDayIndex].icon = item.weather[0].icon
+          weatherInfo[currentDayIndex].description = item.weather[0].description
         } else if (weatherInfo[currentDayIndex].icon == null) {
           weatherInfo[currentDayIndex].icon = item.weather[0].icon
         }
@@ -155,8 +156,8 @@ function App() {
         country: response.city.country,
         //temp: calcCelsius(response.list[0].main.temp),
         temp: Math.round(response.list[0].main.temp),
-        tempMax: Math.round(response.list[0].main.temp_min),
-        tempMin: Math.round(response.list[0].main.temp_max),
+        // tempMax: Math.round(response.list[0].main.temp_min),
+        // tempMin: Math.round(response.list[0].main.temp_max),
         description: response.list[0].weather[0].description,
         // icon: getWeatherIcon(weatherIcon, response.weather[0].id)
       });
@@ -181,7 +182,7 @@ function App() {
         description={weatherData.description}
         icon={weatherIcon.icon}
       />
-      <h5 className='city-name'>{weatherData.city}</h5>
+      {/* <h5 className='city-name'>{weatherData.city}</h5> */}
       <div className='conteiner-cards'>
 
         {days.days.map((day, i) => <Cards day={day} key={i} />)}

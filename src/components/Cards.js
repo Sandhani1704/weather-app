@@ -40,6 +40,7 @@ const Cards = (props) => {
             ) : null} */}
             {minMaxTemp(props.day.max_temp, props.day.min_temp)}
             {/* <p className='py-3'>{props.day.weather[0].description}</p> */}
+            <p className='py-3'>{props.day.description}</p>
 
 
 
