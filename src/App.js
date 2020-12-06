@@ -79,39 +79,68 @@ function App() {
       const apiCall = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location}&lang=ru&units=metric&APPID=${API_KEY}`)
       const response = await apiCall.json()
       console.log(response)
-      // const dailyData = response.list.slice(0, 40);
+      const dailyData = response.list.slice(0, 40);
 
-      const dailyData = response.list.filter(reading => reading.dt_txt.includes("18:00:00"))
+      // const dailyData = response.list.filter(reading => reading.dt_txt.includes("15:00:00"))
 
-      const newData = response.list.reduce((acc, item) => {
-        const day = item.dt_txt.split(' ')[0]; // Дата как ключ
-        if (!acc[day]) {  // если у нас нет такого ключа, то создаем
-          acc[day] = [];
+      // const newData = response.list.reduce((acc, item) => {
+      //   const day = item.dt_txt.split(' ')[0]; // Дата как ключ
+      //   if (!acc[day]) {  // если у нас нет такого ключа, то создаем
+      //     acc[day] = [];
+      //   }
+      //   acc[day].push(item.main.temp)
+      //   // добавляем температуру
+      //   // acc[day].push(item.weather[0].icon)
+      //   return acc
+      // }, {});
+
+      let weatherInfo = []
+      let dateToIndexMap = {}
+
+      const newData = response.list.forEach((item, index) => {
+        let day = item.dt_txt.split(' ')[0]; // Дата как ключ
+        let currentDayIndex = dateToIndexMap[day];
+
+        if(currentDayIndex == null || currentDayIndex == undefined){
+          currentDayIndex = Object.keys(dateToIndexMap).length;
+          dateToIndexMap[day] = currentDayIndex;
         }
-        acc[day].push(item.main.temp, item.weather[0].icon)
-        // добавляем температуру
-        // acc[day].push(item.weather[0].icon)
-        return acc
-      }, {});
-
-      console.log(newData)
-      const temp = [];
-      for (let item in newData) {
-        const avgTemp = Math.round(newData[item].reduce((acc, cur) => {
-          return acc + cur
-        }, 0) / newData[item].length) // Складываем температуру, делим на количество элементов, округляем и добавляем в новый объект
-        temp.push({
-          day: item,
-          avgTemp: avgTemp,
-          // weather: item
-        })
-      }
-
-      console.log(temp)
+        if (weatherInfo[currentDayIndex] == null || weatherInfo[currentDayIndex] == undefined) {  // если у нас нет такого ключа, то создаем
+          weatherInfo[currentDayIndex] = { max_temp: -100, min_temp: 100, icon: null, date: day };
+        }
+        if (weatherInfo[currentDayIndex].max_temp < item.main.temp) {
+          weatherInfo[currentDayIndex].max_temp = item.main.temp;
+        }
+        if (weatherInfo[currentDayIndex].min_temp > item.main.temp) {
+          weatherInfo[currentDayIndex].min_temp = item.main.temp;
+        }
+        if (item.dt_txt.split(' ')[1] === '12:00:00') {
+          weatherInfo[currentDayIndex].icon = item.weather[0].icon
+        } else if (weatherInfo[currentDayIndex].icon == null) {
+          weatherInfo[currentDayIndex].icon = item.weather[0].icon
+        }
+      });
+      console.log(weatherInfo)
 
 
+      // console.log(newData)
+      // const temp = [];
+      // for (let item in newData) {
+      //   const avgTemp = Math.round(newData[item].reduce((acc, cur) => {
+      //     return acc + cur
+      //   }, 0) / newData[item].length) // Складываем температуру, делим на количество элементов, округляем и добавляем в новый объект
+      //   temp.push({
+      //     day: item,
+      //     avgTemp: avgTemp,
+      //     // weather: item
+      //   })
+      // }
 
-      setDays({ days: dailyData })
+      // console.log(temp)
+
+
+
+      setDays({ days: weatherInfo })
       // console.log(newData);
       getWeatherIcon(weatherIcon, response.list[0].weather[0].id);
       // console.log(getWeatherIcon(weatherIcon, response.weather[0].id))
