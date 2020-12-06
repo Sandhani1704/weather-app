@@ -83,31 +83,31 @@ function App() {
 
       const dailyData = response.list.filter(reading => reading.dt_txt.includes("18:00:00"))
 
-      // const newData = response.list.reduce((acc, item) => {
-      //   const day = item.dt_txt.split(' ')[0]; // Дата как ключ
-      //   if (!acc[day]) {  // если у нас нет такого ключа, то создаем
-      //     acc[day] = [];
-      //   }
-      //   acc[day].push(item.main.temp)
-      //   // добавляем температуру
-      //   acc[day].push(item.weather[0].icon)
-      //   return acc
-      // }, {});
+      const newData = response.list.reduce((acc, item) => {
+        const day = item.dt_txt.split(' ')[0]; // Дата как ключ
+        if (!acc[day]) {  // если у нас нет такого ключа, то создаем
+          acc[day] = [];
+        }
+        acc[day].push(item.main.temp, item.weather[0].icon)
+        // добавляем температуру
+        // acc[day].push(item.weather[0].icon)
+        return acc
+      }, {});
 
-      // console.log(newData)
-      // const temp = [];
-      // for (let item in newData) {
-      //   const avgTemp = Math.round(newData[item].reduce((acc, cur) => {
-      //     return acc + cur
-      //   }, 0) / newData[item].length) // Складываем температуру, делим на количество элементов, округляем и добавляем в новый объект
-      //   temp.push({
-      //     day: item,
-      //     avgTemp: avgTemp,
-      //     // weather: item
-      //   })
-      // }
+      console.log(newData)
+      const temp = [];
+      for (let item in newData) {
+        const avgTemp = Math.round(newData[item].reduce((acc, cur) => {
+          return acc + cur
+        }, 0) / newData[item].length) // Складываем температуру, делим на количество элементов, округляем и добавляем в новый объект
+        temp.push({
+          day: item,
+          avgTemp: avgTemp,
+          // weather: item
+        })
+      }
 
-      // console.log(temp)
+      console.log(temp)
 
 
 
