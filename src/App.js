@@ -8,11 +8,8 @@ import Form from './components/Form'
 
 const API_KEY = '30027e883a16a558f45f7e41dda98e31';
 
-
-
 function App() {
 
-  // const [weatherData, setWeatherData] = React.useState({ days: [] });
   const [weatherData, setWeatherData] = React.useState({
     city: undefined,
     country: undefined,
@@ -20,10 +17,9 @@ function App() {
     tempMax: undefined,
     tempMin: undefined,
     description: undefined,
-    // icon: undefined,
   });
 
-  const [days, setDays] = React.useState({ days: [] })
+  const [weatherDays, setWeatherDays] = React.useState({ days: [] })
 
   const [weatherIcon, setWeatherIcon] = React.useState({
     Thunderstorm: 'wi-thunderstorm',
@@ -34,9 +30,6 @@ function App() {
     Clear: 'wi-day-sunny',
     Clouds: 'wi-day-fog',
   });
-
-
-  // const [country, setCountry] = React.useState('');
 
   const getWeatherIcon = (icons, rangeId) => {
     switch (true) {
@@ -70,11 +63,11 @@ function App() {
   //   return cell;
   // }
 
-  // React.useEffect(() => {
+  
   const getWeather = async (e) => {
     e.preventDefault()
     const location = e.target.elements.city.value
-    console.log(location)
+
     if (location) {
       const apiCall = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location}&lang=ru&units=metric&APPID=${API_KEY}`)
       const response = await apiCall.json()
@@ -101,7 +94,7 @@ function App() {
         let day = item.dt_txt.split(' ')[0]; // Дата как ключ
         let currentDayIndex = dateToIndexMap[day];
 
-        if(currentDayIndex == null || currentDayIndex == undefined){
+        if (currentDayIndex == null || currentDayIndex == undefined) {
           currentDayIndex = Object.keys(dateToIndexMap).length;
           dateToIndexMap[day] = currentDayIndex;
         }
@@ -139,36 +132,20 @@ function App() {
 
       // console.log(temp)
 
+      getWeatherIcon(weatherIcon, response.list[0].weather[0].id)
+
+      setWeatherDays({ days: weatherInfo })
 
 
-      setDays({ days: weatherInfo })
-      // console.log(newData);
-      getWeatherIcon(weatherIcon, response.list[0].weather[0].id);
-      // console.log(getWeatherIcon(weatherIcon, response.weather[0].id))
       setWeatherData({
-        // city: `${response.name}, ${response.sys.country}`,
-        // country: response.sys.country,
-        // temp: calcCelsius(response.main.temp),
-        // tempMax: calcCelsius(response.main.temp_min),
-        // tempMin: calcCelsius(response.main.temp_max),
-        // description: response.weather[0].description,
         city: `${response.city.name}, ${response.city.country}`,
         country: response.city.country,
-        //temp: calcCelsius(response.list[0].main.temp),
         temp: Math.round(response.list[0].main.temp),
-        // tempMax: Math.round(response.list[0].main.temp_min),
-        // tempMin: Math.round(response.list[0].main.temp_max),
         description: response.list[0].weather[0].description,
-        // icon: getWeatherIcon(weatherIcon, response.weather[0].id)
       });
-      // console.log(setWeatherData.icon)
 
-      // console.log(getWeatherIcon(weatherIcon, response.weather[0].id))
     } else console.error();
   }
-  //   getWeather()
-  // }, [getWeather()]);
-
 
   return (
     <div className="App">
@@ -182,10 +159,10 @@ function App() {
         description={weatherData.description}
         icon={weatherIcon.icon}
       />
-      {/* <h5 className='city-name'>{weatherData.city}</h5> */}
+
       <div className='conteiner-cards'>
 
-        {days.days.map((day, i) => <Cards day={day} key={i} />)}
+        {weatherDays.days.map((day, i) => <Cards day={day} key={i} />)}
       </div>
 
     </div>
