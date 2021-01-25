@@ -8,11 +8,8 @@ import Form from './components/Form'
 
 const API_KEY = '30027e883a16a558f45f7e41dda98e31';
 
-
-
 function App() {
 
-  // const [weatherData, setWeatherData] = React.useState({ days: [] });
   const [weatherData, setWeatherData] = React.useState({
     city: undefined,
     country: undefined,
@@ -23,7 +20,7 @@ function App() {
     icon: undefined,
   });
 
-  const [days, setDays] = React.useState({ days: [] })
+  const [weatherDays, setWeatherDays] = React.useState({ days: [] })
 
   const [weatherIcon, setWeatherIcon] = React.useState({
     Thunderstorm: 'wi-thunderstorm',
@@ -34,9 +31,6 @@ function App() {
     Clear: 'wi-day-sunny',
     Clouds: 'wi-day-fog',
   });
-
-
-  // const [country, setCountry] = React.useState('');
 
   const getWeatherIcon = (icons, rangeId) => {
     switch (true) {
@@ -70,11 +64,11 @@ function App() {
   //   return cell;
   // }
 
-  // React.useEffect(() => {
+
   const getWeather = async (e) => {
     e.preventDefault()
     const location = e.target.elements.city.value
-    console.log(location)
+
     if (location) {
       const apiCall = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location}&lang=ru&units=metric&APPID=${API_KEY}`)
       const response = await apiCall.json()
@@ -139,12 +133,11 @@ function App() {
 
       // console.log(temp)
 
+      getWeatherIcon(weatherIcon, response.list[0].weather[0].id)
+
+      setWeatherDays({ days: weatherInfo })
 
 
-      setDays({ days: weatherInfo })
-      // console.log(newData);
-      getWeatherIcon(weatherIcon, response.list[0].weather[0].id);
-      // console.log(getWeatherIcon(weatherIcon, response.weather[0].id))
       setWeatherData({
         city: `${response.city.name}, ${response.city.country}`,
         country: response.city.country,
@@ -168,10 +161,10 @@ function App() {
         //icon={weatherIcon.icon}
         icon={weatherData.icon}
       />
-      {/* <h5 className='city-name'>{weatherData.city}</h5> */}
+
       <div className='conteiner-cards'>
 
-        {days.days.map((day, i) => <Cards day={day} key={i} />)}
+        {weatherDays.days.map((day, i) => <Cards day={day} key={i} />)}
       </div>
 
     </div>
