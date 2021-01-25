@@ -1,7 +1,12 @@
-.card-conteiner {
-    margin-right: 50px;
+.card-list {
+    /* margin-right: 50px; */
     /* display: flex;
   justify-content: center; */
+    /* display: grid;
+	padding: 0;
+	gap: 16px 16px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr; */
+    justify-content: center;
 }
 
 .card_description {
