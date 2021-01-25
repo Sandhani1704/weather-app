@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import './Weather.css';
 
 // function minMaxTemp(min, max) {
 //     if (max && min) {
@@ -13,18 +14,18 @@ import moment from 'moment';
 // }
 
 const Weather = (props) => {
+    const icon = `http://openweathermap.org/img/wn/${props.icon}@2x.png`;
+    console.log(icon)
     return (
         <div className='conteiner'>
-            <p>{moment().format('LT')}</p>
+            { props.cityName && <p>Сейчас {moment().format('LT')}</p>}
             <div className='cards'>
                 <h1>{props.cityName}</h1>
-                <h5 className='py-4'>
-                    <i className={`wi ${props.icon} display-1`}></i>
-                </h5>
+                <img className='weather__image' src={icon}></img>
+
                 {props.temp ? (
-                    <h2 className='py-2'>{props.temp}&deg;</h2>
+                    <p className='weather__temp'>{props.temp}&deg;</p>
                 ) : null}
-                {/* {minMaxTemp(props.tempMin, props.tempMax)} */}
                 <p className='py-3'>{props.description}</p>
             </div>
 

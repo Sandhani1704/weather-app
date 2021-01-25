@@ -20,7 +20,7 @@ function App() {
     tempMax: undefined,
     tempMin: undefined,
     description: undefined,
-    // icon: undefined,
+    icon: undefined,
   });
 
   const [days, setDays] = React.useState({ days: [] })
@@ -101,12 +101,12 @@ function App() {
         let day = item.dt_txt.split(' ')[0]; // Дата как ключ
         let currentDayIndex = dateToIndexMap[day];
 
-        if(currentDayIndex == null || currentDayIndex == undefined){
+        if (currentDayIndex == null || currentDayIndex == undefined) {
           currentDayIndex = Object.keys(dateToIndexMap).length;
           dateToIndexMap[day] = currentDayIndex;
         }
         if (weatherInfo[currentDayIndex] == null || weatherInfo[currentDayIndex] == undefined) {  // если у нас нет такого ключа, то создаем
-          weatherInfo[currentDayIndex] = { max_temp: -100, min_temp: 100, icon: null, date: day, description: '' };
+          weatherInfo[currentDayIndex] = { max_temp: -100, min_temp: 100, icon: null, date: day, description: '' }; // 
         }
         if (weatherInfo[currentDayIndex].max_temp < item.main.temp) {
           weatherInfo[currentDayIndex].max_temp = item.main.temp;
@@ -146,29 +146,14 @@ function App() {
       getWeatherIcon(weatherIcon, response.list[0].weather[0].id);
       // console.log(getWeatherIcon(weatherIcon, response.weather[0].id))
       setWeatherData({
-        // city: `${response.name}, ${response.sys.country}`,
-        // country: response.sys.country,
-        // temp: calcCelsius(response.main.temp),
-        // tempMax: calcCelsius(response.main.temp_min),
-        // tempMin: calcCelsius(response.main.temp_max),
-        // description: response.weather[0].description,
         city: `${response.city.name}, ${response.city.country}`,
         country: response.city.country,
-        //temp: calcCelsius(response.list[0].main.temp),
         temp: Math.round(response.list[0].main.temp),
-        // tempMax: Math.round(response.list[0].main.temp_min),
-        // tempMin: Math.round(response.list[0].main.temp_max),
         description: response.list[0].weather[0].description,
-        // icon: getWeatherIcon(weatherIcon, response.weather[0].id)
+        icon: response.list[0].weather[0].icon
       });
-      // console.log(setWeatherData.icon)
-
-      // console.log(getWeatherIcon(weatherIcon, response.weather[0].id))
     } else console.error();
   }
-  //   getWeather()
-  // }, [getWeather()]);
-
 
   return (
     <div className="App">
@@ -180,7 +165,8 @@ function App() {
         tempMax={weatherData.tempMax}
         tempMin={weatherData.tempMin}
         description={weatherData.description}
-        icon={weatherIcon.icon}
+        //icon={weatherIcon.icon}
+        icon={weatherData.icon}
       />
       {/* <h5 className='city-name'>{weatherData.city}</h5> */}
       <div className='conteiner-cards'>

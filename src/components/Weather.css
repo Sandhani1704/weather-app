@@ -1,0 +1,9 @@
+.weather__image {
+    width: 150px;
+}
+
+.weather__temp {
+    font-size: 30px;
+    margin: 0;
+    font-weight: 600;
+}
