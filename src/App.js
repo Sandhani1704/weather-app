@@ -108,6 +108,9 @@ function App() {
         if (weatherInfo[currentDayIndex].min_temp > item.main.temp) {
           weatherInfo[currentDayIndex].min_temp = item.main.temp;
         }
+        if (weatherInfo[currentDayIndex].description == '') { //
+          weatherInfo[currentDayIndex].description = item.weather[0].description //
+        } //
         if (item.dt_txt.split(' ')[1] === '12:00:00') {
           weatherInfo[currentDayIndex].icon = item.weather[0].icon
           weatherInfo[currentDayIndex].description = item.weather[0].description
@@ -150,23 +153,24 @@ function App() {
 
   return (
     <div className="App">
-      <Form getWeather={getWeather} />
-      <Weather
-        cityName={weatherData.city}
-        country={weatherData.country}
-        temp={weatherData.temp}
-        tempMax={weatherData.tempMax}
-        tempMin={weatherData.tempMin}
-        description={weatherData.description}
-        //icon={weatherIcon.icon}
-        icon={weatherData.icon}
-      />
+      <div className='App__image'>
+        <Form getWeather={getWeather} />
+        <Weather
+          cityName={weatherData.city}
+          country={weatherData.country}
+          temp={weatherData.temp}
+          tempMax={weatherData.tempMax}
+          tempMin={weatherData.tempMin}
+          description={weatherData.description}
+          //icon={weatherIcon.icon}
+          icon={weatherData.icon}
+        />
 
-      <div className='conteiner-cards'>
+        <div className='conteiner-cards'>
+          {weatherDays.days.map((day, i) => <Cards day={day} key={i} />)}
+        </div>
 
-        {weatherDays.days.map((day, i) => <Cards day={day} key={i} />)}
       </div>
-
     </div>
   );
 }

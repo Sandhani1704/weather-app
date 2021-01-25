@@ -3,7 +3,32 @@
 }
 
 .weather__temp {
+    font-family: 'Roboto', Arial, sans-serif;
     font-size: 30px;
     margin: 0;
     font-weight: 600;
+    color: rgb(255, 255, 255);
+}
+
+.card_city-name {
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 30px;
+    margin: 0;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
+}
+
+.card__weather-description {
+    font-family: sans-serif;
+    font-size: 20px;
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
+}
+
+.card__weather-time {
+    font-family: sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: rgb(255, 255, 255); 
 }

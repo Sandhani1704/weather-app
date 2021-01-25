@@ -31,18 +31,19 @@ form {
   }
 
   .form-conteiner {
-    /* display: flex; */
     justify-content: center;
     /* max-width: 300px; */
     z-index: 1;
+    margin: 0 auto;
   }
 
   .btn {
     align-items: center;
   }
   .search-form {
-    display: flex;
+    /* display: flex; */
     padding: 80px calc(50% - min(545px, 58%) / 2);
+    margin: 0 auto;
   }
 
   .search-form__input {

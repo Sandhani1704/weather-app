@@ -1,3 +1,26 @@
 .card-conteiner {
     margin-right: 50px;
+    /* display: flex;
+  justify-content: center; */
+}
+
+.card_description {
+    font-family: sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: rgb(255, 255, 255);
+}
+
+.card__temp {
+    font-family: sans-serif;
+    font-size: 25px;
+    font-weight: 400;
+    color: rgb(255, 255, 255); 
+}
+
+.card__date {
+    font-family: sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: rgb(255, 255, 255);  
 }
