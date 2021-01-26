@@ -7,7 +7,6 @@
 }
 
 .App__image {
-  /* position: fixed; */
     top: 0;
     left: 0;
     height: 100%;
@@ -27,11 +26,14 @@
 
 .conteiner-cards {
   display: grid;
-  /* justify-content: center; */
   margin: 0 auto;
-  padding: 0;
+  padding: 20px 80px;
 	gap: 30px 30px;
-  /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
-  /* grid-template-columns: repeat(auto-fill, 100px);  */
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr))
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))
+}
+
+@media screen and (max-width: 482px) {
+  .conteiner-cards {
+    padding: 20px calc(50% - min(285px, 89%) / 2) 20px;
+  }
 }
