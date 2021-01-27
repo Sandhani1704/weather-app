@@ -3,7 +3,7 @@
 }
 
 .weather__temp {
-    font-family: 'Roboto', Arial, sans-serif;
+    font-family: 'Montserrat', Arial, sans-serif;
     font-size: 30px;
     margin: 0;
     font-weight: 600;
@@ -11,15 +11,21 @@
 }
 
 .card_city-name {
-    font-family: 'Roboto', Arial, sans-serif;
-    font-size: 30px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 28px;
     margin: 0;
     font-weight: 600;
     color: rgb(255, 255, 255);
 }
 
+@media screen and (max-width: 482px) {
+    .card_city-name {
+        font-size: 22px;
+    }
+}
+
 .card__weather-description {
-    font-family: sans-serif;
+    font-family: 'Montserrat', Arial, sans-serif;
     font-size: 20px;
     margin-bottom: 30px;
     font-weight: 600;
@@ -27,7 +33,7 @@
 }
 
 .card__weather-time {
-    font-family: sans-serif;
+    font-family: 'Montserrat', Arial, sans-serif;
     font-size: 20px;
     font-weight: 400;
     color: rgb(255, 255, 255); 
