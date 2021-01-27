@@ -1,8 +1,8 @@
-.weather__image {
+.card__weather-image {
     width: 150px;
 }
 
-.weather__temp {
+.card__weather-temp {
     font-family: 'Montserrat', Arial, sans-serif;
     font-size: 30px;
     margin: 0;
@@ -10,7 +10,7 @@
     color: rgb(255, 255, 255);
 }
 
-.card_city-name {
+.card__city-name {
     font-family: 'Montserrat', Arial, sans-serif;
     font-size: 28px;
     margin: 0;
@@ -19,7 +19,7 @@
 }
 
 @media screen and (max-width: 482px) {
-    .card_city-name {
+    .card__city-name {
         font-size: 22px;
     }
 }

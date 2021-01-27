@@ -1,16 +1,10 @@
 form {
     margin-top: 3rem;
     justify-content: center;
-    
-  }
+}
   
   form input[name="city"],
   form input[name="country"] {
-    /* background-color: transparent;
-    color: white;
-    border: none;
-    border-bottom: 2px solid whitesmoke;
-    border-radius: 0; */
     padding: 0;
     padding-left: 24px;
     font-family: 'Roboto', Arial, sans-serif;
@@ -26,22 +20,7 @@ form {
     box-sizing: border-box;
   }
 
-  .form-control {
-    margin: 0;
-  }
-
-  .form-conteiner {
-    justify-content: center;
-    /* max-width: 300px; */
-    z-index: 1;
-    margin: 0 auto;
-  }
-
-  .btn {
-    align-items: center;
-  }
   .search-form {
-    /* display: flex; */
     padding: 80px calc(50% - min(545px, 58%) / 2);
     margin: 0 auto;
   }

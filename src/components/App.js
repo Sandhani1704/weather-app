@@ -5,8 +5,7 @@ import 'weather-icons/css/weather-icons.css'
 import Weather from './Weather'
 import Cards from './Cards'
 import Form from './Form'
-
-const API_KEY = '30027e883a16a558f45f7e41dda98e31';
+import { API_KEY } from '../utils/utils';
 
 function App() {
 
@@ -22,49 +21,6 @@ function App() {
 
   const [weatherDays, setWeatherDays] = React.useState({ days: [] })
 
-  const [weatherIcon, setWeatherIcon] = React.useState({
-    Thunderstorm: 'wi-thunderstorm',
-    Drizzle: 'wi-sleet',
-    Rain: 'wi-storm-showers',
-    Snow: 'wi-snow',
-    Atmosphere: 'wi-fog',
-    Clear: 'wi-day-sunny',
-    Clouds: 'wi-day-fog',
-  });
-
-  const getWeatherIcon = (icons, rangeId) => {
-    switch (true) {
-      case rangeId >= 200 && rangeId <= 232:
-        setWeatherIcon({ icon: icons.Thunderstorm })
-        break;
-      case rangeId >= 300 && rangeId <= 321:
-        setWeatherIcon({ icon: icons.Drizzle })
-        break;
-      case rangeId >= 500 && rangeId <= 531:
-        setWeatherIcon({ icon: icons.Rain })
-        break;
-      case rangeId >= 600 && rangeId <= 622:
-        setWeatherIcon({ icon: icons.Snow })
-        break;
-      case rangeId >= 701 && rangeId <= 781:
-        setWeatherIcon({ icon: icons.Atmosphere })
-        break;
-      case rangeId === 800:
-        setWeatherIcon({ icon: icons.Clear })
-        break;
-      case rangeId >= 801 && rangeId <= 804:
-        setWeatherIcon({ icon: icons.Clouds })
-        break;
-      default: setWeatherIcon({ icon: icons.Clear });
-    }
-  }
-
-  // const calcCelsius = (temp) => {
-  //   let cell = Math.floor(temp - 273, 15)
-  //   return cell;
-  // }
-
-
   const getWeather = async (e) => {
     e.preventDefault()
     const location = e.target.elements.city.value
@@ -74,19 +30,6 @@ function App() {
       const response = await apiCall.json()
       console.log(response)
       const dailyData = response.list.slice(0, 40);
-
-      // const dailyData = response.list.filter(reading => reading.dt_txt.includes("15:00:00"))
-
-      // const newData = response.list.reduce((acc, item) => {
-      //   const day = item.dt_txt.split(' ')[0]; // Дата как ключ
-      //   if (!acc[day]) {  // если у нас нет такого ключа, то создаем
-      //     acc[day] = [];
-      //   }
-      //   acc[day].push(item.main.temp)
-      //   // добавляем температуру
-      //   // acc[day].push(item.weather[0].icon)
-      //   return acc
-      // }, {});
 
       let weatherInfo = []
       let dateToIndexMap = {}
@@ -120,26 +63,7 @@ function App() {
       });
       console.log(weatherInfo)
 
-
-      // console.log(newData)
-      // const temp = [];
-      // for (let item in newData) {
-      //   const avgTemp = Math.round(newData[item].reduce((acc, cur) => {
-      //     return acc + cur
-      //   }, 0) / newData[item].length) // Складываем температуру, делим на количество элементов, округляем и добавляем в новый объект
-      //   temp.push({
-      //     day: item,
-      //     avgTemp: avgTemp,
-      //     // weather: item
-      //   })
-      // }
-
-      // console.log(temp)
-
-      getWeatherIcon(weatherIcon, response.list[0].weather[0].id)
-
       setWeatherDays({ days: weatherInfo })
-
 
       setWeatherData({
         city: `${response.city.name}, ${response.city.country}`,
@@ -162,7 +86,6 @@ function App() {
           tempMax={weatherData.tempMax}
           tempMin={weatherData.tempMin}
           description={weatherData.description}
-          //icon={weatherIcon.icon}
           icon={weatherData.icon}
         />
 

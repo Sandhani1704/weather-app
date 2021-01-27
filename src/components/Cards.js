@@ -22,18 +22,17 @@ const Cards = (props) => {
     const getWeekDay = props.day.date;
 
     return (
-        <div className='card-list'>
-            {/* <div className='card-conteiner'> */}
-
+        <div className='card__list'>
+            
             <p className='card__date'>{moment(getWeekDay).format('dddd')}</p>
             <p className='card__date'>{moment(getWeekDay).format('MMM Do YY')}</p>
 
-            <img src={icon}></img>
+            <img src={icon} alt='иконка погоды'></img>
 
             {minMaxTemp(props.day.max_temp, props.day.min_temp)}
 
-            <p className='card_description'>{props.day.description}</p>
-            {/* </div> */}
+            <p className='card__description'>{props.day.description}</p>
+            
         </div>
     )
 }
